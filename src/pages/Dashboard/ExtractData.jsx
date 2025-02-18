@@ -74,8 +74,8 @@ const ExtractData = () => {
   }
 
   return (
-    <div className="flex flex-col items-center p-6 bg-gray-50 rounded-lg shadow-md max-w-4xl mx-auto mt-10">
-      <h2 className="text-2xl font-semibold mb-4">
+    <div className="p-6 shadow-md w-full">
+      <h2 className="text-2xl font-semibold text-[#ffff] mb-4">
         Upload CVs for Data Extraction
       </h2>
 
@@ -91,7 +91,7 @@ const ExtractData = () => {
       {/* Upload Button */}
       <button
         onClick={ExtractDataHandler}
-        className="btn btn-primary w-full mb-4 py-3 text-lg"
+        className="btn btn-secondary mb-4 py-3 text-lg w-1/5"
       >
         Extract Data and Download
       </button>

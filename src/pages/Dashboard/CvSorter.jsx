@@ -48,7 +48,7 @@ const CvSorter = () => {
       if (response.data) {
         setLoading(false);
       }
-      setMessage("CVs uploaded successfully!");
+      setMessage("CVs Analysis successfully!");
     } catch (error) {
       console.error("Error uploading CVs:", error);
       setMessage("Failed to upload CVs.");
@@ -60,7 +60,7 @@ const CvSorter = () => {
   }
 
   return (
-    <div className="flex flex-col items-center p-6 bg-gray-50 rounded-lg shadow-md max-w-4xl mx-auto mt-10">
+    <div className="flex flex-col  p-6  shadow-md w-full mx-auto text-[#ffffff]">
       <h2 className="text-2xl font-semibold mb-4">Upload CVs for Sorting</h2>
 
       {/* Job Description Input */}
@@ -81,8 +81,8 @@ const CvSorter = () => {
       />
 
       {/* Upload Button */}
-      <button onClick={handleUpload} className="btn btn-primary w-full mb-4">
-        Upload CVs
+      <button onClick={handleUpload} className="btn btn-secondary w-1/6 mb-4">
+        Analysis Cvs
       </button>
 
       {/* Message */}
