@@ -10,8 +10,6 @@ const CvSorter = () => {
   const [results, setResults] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
-  console.log(results, "res");
-
   const handleFileChange = (event) => {
     setCvFiles(event.target.files);
   };
@@ -27,7 +25,6 @@ const CvSorter = () => {
     const formData = new FormData();
     formData.append("job_description", jobDescription);
 
-    // Append multiple files to FormData
     for (let i = 0; i < cvFiles.length; i++) {
       formData.append("cv_files", cvFiles[i]);
     }
@@ -43,15 +40,20 @@ const CvSorter = () => {
         }
       );
 
-      setResults(response.data); // Set the results from the server
-      // response
       if (response.data) {
+        // Convert object to array, sort by "match" in descending order, and convert back to object
+        const sortedResults = Object.fromEntries(
+          Object.entries(response.data).sort((a, b) => b[1].match - a[1].match)
+        );
+
+        setResults(sortedResults); // Store sorted results
         setLoading(false);
+        setMessage("CVs Analysis successfully!");
       }
-      setMessage("CVs Analysis successfully!");
     } catch (error) {
       console.error("Error uploading CVs:", error);
       setMessage("Failed to upload CVs.");
+      setLoading(false);
     }
   };
 
