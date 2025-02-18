@@ -1,12 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
+import Loading from "../../component/Loading";
+import loader from "../../assets/loading.gif";
 
 const CvSorter = () => {
   const [jobDescription, setJobDescription] = useState("");
   const [cvFiles, setCvFiles] = useState([]);
   const [message, setMessage] = useState("");
   const [results, setResults] = useState([]);
-  const [isloading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   console.log(results, "res");
 
@@ -53,8 +55,8 @@ const CvSorter = () => {
     }
   };
 
-  if (isloading) {
-    return <h1>Loading ...</h1>;
+  if (isLoading) {
+    return <Loading loader={loader} />;
   }
 
   return (

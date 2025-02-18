@@ -26,7 +26,10 @@ const Dashboard = () => {
             <Link to="cv-sorter">Sort Cv</Link>
           </li>
           <li>
-            <a>Sidebar Item 2</a>
+            <Link to="extract-data">Extract Data</Link>
+          </li>
+          <li>
+            <Link to="send-email">Send Email</Link>
           </li>
         </ul>
       </div>
