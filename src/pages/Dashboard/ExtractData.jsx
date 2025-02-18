@@ -80,21 +80,25 @@ const ExtractData = () => {
       </h2>
 
       {/* CV Files Input */}
-      <input
-        type="file"
-        multiple
-        accept=".pdf"
-        onChange={handleFileChange}
-        className="file-input file-input-bordered file-input-primary w-full mb-4"
-      />
+      <div>
+        <input
+          type="file"
+          multiple
+          accept=".pdf"
+          onChange={handleFileChange}
+          className="file-input file-input-bordered file-input-primary w-1/2 mb-4"
+        />
+      </div>
 
-      {/* Upload Button */}
-      <button
-        onClick={ExtractDataHandler}
-        className="btn btn-secondary mb-4 py-3 text-lg w-1/5"
-      >
-        Extract Data and Download
-      </button>
+      <div>
+        {/* Upload Button */}
+        <button
+          onClick={ExtractDataHandler}
+          className="btn btn-secondary mb-4 text-lg w-1/5"
+        >
+          Extract Data and Download
+        </button>
+      </div>
 
       {/* Message */}
       {message && (

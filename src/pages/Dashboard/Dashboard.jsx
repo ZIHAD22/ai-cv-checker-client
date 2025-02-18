@@ -83,8 +83,12 @@ const Dashboard = () => {
         </label>
       </div>
       <div className="drawer-side">
-        <Link to="/dashboard" className="p-4 block text-center mx-auto">
-          <label htmlFor="my-drawer-2" aria-label="close sidebar">
+        <Link to="/dashboard" className="p-4 block text-center mx-auto ">
+          <label
+            htmlFor="my-drawer-2"
+            aria-label="close sidebar"
+            className="cursor-pointer"
+          >
             Intelligent - HR
           </label>
         </Link>

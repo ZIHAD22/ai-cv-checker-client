@@ -79,7 +79,7 @@ const CvSorter = () => {
         multiple
         accept=".pdf"
         onChange={handleFileChange}
-        className="file-input file-input-bordered file-input-primary w-full mb-4"
+        className="file-input file-input-bordered file-input-primary w-1/2 mb-4"
       />
 
       {/* Upload Button */}
