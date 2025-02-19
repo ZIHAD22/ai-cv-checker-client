@@ -103,6 +103,9 @@ const Dashboard = () => {
           <li>
             <Link to="send-email">Send Email</Link>
           </li>
+          <li>
+            <Link to="generation-question">Generate Question</Link>
+          </li>
         </ul>
       </div>
     </div>

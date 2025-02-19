@@ -2,11 +2,14 @@ import { useState } from "react";
 import axios from "axios";
 import loader from "../../assets/export-data.gif";
 import Loading from "../../component/Loading";
+import { Upload } from "lucide-react";
 
 const ExtractData = () => {
   const [selectedFiles, setSelectedFiles] = useState(null);
   const [message, setMessage] = useState("");
   const [isLoading, setLoading] = useState(false);
+
+  console.log(selectedFiles);
 
   // Handle file input change
   const handleFileChange = (e) => {
@@ -80,21 +83,51 @@ const ExtractData = () => {
       </h2>
 
       {/* CV Files Input */}
-      <div>
-        <input
-          type="file"
-          multiple
-          accept=".pdf"
-          onChange={handleFileChange}
-          className="file-input file-input-bordered file-input-primary w-1/2 mb-4"
-        />
+      <div className="space-y-2 my-5">
+        <label className="block text-sm font-medium text-gray-300">
+          Upload Pdf File
+        </label>
+        <div className="flex items-center justify-center w-full">
+          <label
+            htmlFor="cv-upload"
+            className="flex flex-col items-center justify-center w-full h-25 border-2 border-gray-600 border-dashed rounded-lg cursor-pointer hover:bg-gray-700 hover:border-gray-500 transition-colors duration-150"
+          >
+            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+              <Upload className="w-8 h-2 mb-2 text-gray-400" />
+              <p className="mb-2 text-sm text-gray-400">
+                <span className="font-semibold">Click to upload</span> or drag
+                and drop
+              </p>
+              <p className="text-xs text-gray-500">Pdf files only</p>
+            </div>
+            <input
+              type="file"
+              id="cv-upload"
+              multiple
+              accept=".pdf"
+              onChange={handleFileChange}
+              className="file-input file-input-bordered file-input-primary w-1/2 mb-4 hidden"
+            />
+          </label>
+        </div>
+        {/* Show selected files */}
+        {selectedFiles && selectedFiles.length > 0 && (
+          <div className="my-4">
+            <p className="text-sm text-gray-400">Selected Files:</p>
+            <ul className="list-disc pl-6 text-sm text-gray-300">
+              {Array.from(selectedFiles).map((file, index) => (
+                <li key={index}>{file.name}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div>
         {/* Upload Button */}
         <button
           onClick={ExtractDataHandler}
-          className="btn btn-secondary mb-4 text-lg w-1/5"
+          className="btn btn-secondary mb-4 w-1/6"
         >
           Extract Data and Download
         </button>

@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router";
 import CvSorter from "../pages/Dashboard/CvSorter.jsx";
 import ExtractData from "../pages/Dashboard/ExtractData.jsx";
 import SendEmail from "../pages/Dashboard/SendEmail.jsx";
+import QuestionGeneration from "../pages/Dashboard/QuestionGeneration.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "send-email",
         element: <SendEmail />,
+      },
+      {
+        path: "generation-question",
+        element: <QuestionGeneration />,
       },
     ],
   },
