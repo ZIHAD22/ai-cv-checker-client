@@ -1,7 +1,15 @@
-import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 
-const SingleInput = ({type, labelText, name, value, onChange}) => {
+const SingleInput = ({
+  type,
+  labelText,
+  name,
+  value,
+  onChange,
+  error,
+  required = false,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -12,22 +20,32 @@ const SingleInput = ({type, labelText, name, value, onChange}) => {
     <div className="py-4">
       <div className="relative">
         <input
-          type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
+          type={
+            type === "password" ? (showPassword ? "text" : "password") : type
+          }
           name={name}
           id={name}
           value={value}
           onChange={onChange}
-          className="peer w-full border-0 border-b-2 pb-2 focus:outline-none focus:ring-0 focus:border-black placeholder-transparent text-sm"
+          required={required}
+          className={`peer w-full border-0 border-b-2 pb-2 focus:outline-none focus:ring-0 ${
+            error ? "border-red-500 focus:border-red-500" : "focus:border-black"
+          } placeholder-transparent text-sm`}
           placeholder={name}
         />
         <label
           htmlFor={name}
-          className="absolute font-semibold left-0 -top-4 text-gray-400 text-xs transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-sm peer-placeholder-shown:font-semibold peer-placeholder-shown:text-[#1d1e22] peer-focus:-top-4 peer-focus:text-xs peer-focus:text-gray-400 pointer-events-none peer-focus:left-0 peer-placeholder-shown:left-2"
+          className={`absolute font-semibold left-0 -top-4 ${
+            error ? "text-red-500" : "text-gray-400"
+          } text-xs transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-sm peer-placeholder-shown:font-semibold peer-placeholder-shown:text-[#1d1e22] peer-focus:-top-4 peer-focus:text-xs ${
+            error ? "peer-focus:text-red-500" : "peer-focus:text-gray-400"
+          } pointer-events-none peer-focus:left-0 peer-placeholder-shown:left-2`}
         >
           {labelText}
+          {required && <span className="text-red-500 ml-1">*</span>}
         </label>
-        
-        {type === 'password' && (
+
+        {type === "password" && (
           <button
             type="button"
             onClick={togglePasswordVisibility}
@@ -41,6 +59,9 @@ const SingleInput = ({type, labelText, name, value, onChange}) => {
           </button>
         )}
       </div>
+
+      {/* Error message */}
+      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
     </div>
   );
 };
