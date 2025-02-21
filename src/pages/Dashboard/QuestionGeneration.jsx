@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Upload } from "lucide-react";
 
@@ -9,14 +9,32 @@ const QuestionGeneration = () => {
   const [message, setMessage] = useState("");
   const [isLoading, setLoading] = useState(false);
 
+  // Load results from localStorage on component mount
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      const savedResults = localStorage.getItem("generatedQuestions");
+      if (savedResults) {
+        setResults(JSON.parse(savedResults));
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   const handleFileChange = (event) => {
     setQuestionFiles(event.target.files);
   };
 
   const handleGenerate = async () => {
+    localStorage.removeItem("generatedQuestions");
     setLoading(true);
     setMessage("");
-    setResults([]);
+    setResults([]); // Clear previous results before generating new ones
 
     if (!jobDescription || questionFiles.length === 0) {
       setMessage("Please add a job description and select at least one CV.");
@@ -44,6 +62,10 @@ const QuestionGeneration = () => {
 
       if (response.data.files) {
         setResults(response.data.files);
+        localStorage.setItem(
+          "generatedQuestions",
+          JSON.stringify(response.data.files)
+        ); // Save results to localStorage
         setMessage("Questions generated successfully!");
       }
     } catch (error) {

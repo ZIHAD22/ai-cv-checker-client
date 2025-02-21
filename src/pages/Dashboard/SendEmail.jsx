@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Loading from "../../component/Loading";
 import loader from "../../assets/sendEmail.gif";
@@ -11,6 +11,26 @@ const SendEmail = () => {
   const [message, setMessage] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    const savedResults = localStorage.getItem("email");
+    const emailBody = localStorage.getItem("email-body");
+    const emailSubject = localStorage.getItem("email-subject");
+    if (savedResults) {
+      setResults(JSON.parse(savedResults));
+    }
+    if (emailBody) {
+      setResults(JSON.parse(emailBody));
+    }
+    if (emailSubject) {
+      setResults(JSON.parse(emailSubject));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("email-subject", JSON.stringify(subject)); // Save results to localStorage
+    localStorage.setItem("email-body", JSON.stringify(body)); // Save results to localStorage
+  }, [subject, body]);
 
   const handleFileChange = (event) => {
     setExcelFile(event.target.files[0]);
@@ -41,6 +61,7 @@ const SendEmail = () => {
       );
 
       setResults(response.data.status);
+      localStorage.setItem("email", JSON.stringify(response.data.status)); // Save results to localStorage
       setMessage("Emails sent successfully!");
     } catch (error) {
       console.error("Error sending emails:", error);
