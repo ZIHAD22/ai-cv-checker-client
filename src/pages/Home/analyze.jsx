@@ -1,9 +1,8 @@
 import axios from "../../api/api";
 import CVAnalysisResults from "../../component/home/analyzeReport";
-import HasUsed from "../../component/home/hasUsedFeature";
 import { Upload, X } from "lucide-react";
 import { Loader } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 
 const CVAnalyzerForm = () => {
   const [jobDescription, setJobDescription] = useState("");
@@ -11,15 +10,15 @@ const CVAnalyzerForm = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [analysisData, setAnalysisData] = useState(null);
-  const [hasUsedFeature, setHasUsedFeature] = useState(false);
+  // const [hasUsedFeature, setHasUsedFeature] = useState(false);
 
   // Check if user has already used the feature
-  useEffect(() => {
-    const usageStatus = localStorage.getItem("cv-analyzer-usage");
-    if (usageStatus) {
-      setHasUsedFeature(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const usageStatus = localStorage.getItem("cv-analyzer-usage");
+  //   if (usageStatus) {
+  //     setHasUsedFeature(true);
+  //   }
+  // }, []);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -36,10 +35,6 @@ const CVAnalyzerForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (hasUsedFeature) {
-      setError("Please sign up to continue using this feature");
-      return;
-    }
 
     let formData = new FormData();
     formData.append("analyze_file", selectedFile);
@@ -50,7 +45,6 @@ const CVAnalyzerForm = () => {
       const { data } = await axios.post("/analyze-resume", formData);
       setAnalysisData(data);
       localStorage.setItem('cv-analyzer-usage', 'true');
-      setHasUsedFeature(true);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to analyze CV");
     } finally {
@@ -65,9 +59,7 @@ const CVAnalyzerForm = () => {
     setError("");
   };
 
-  if (hasUsedFeature && !analysisData) {
-    return <HasUsed />;
-  }
+
 
   if (isLoading) {
     return (
@@ -107,11 +99,7 @@ const CVAnalyzerForm = () => {
           Upload your CV and provide the job description to analyze how well
           your profile matches the requirements.
         </p>
-        {!hasUsedFeature && (
-          <p className="mt-2 text-xs text-indigo-400">
-            Try once for free. Sign up to unlock unlimited analysis.
-          </p>
-        )}
+        
       </div>
 
       {/* Form Content */}
@@ -129,7 +117,7 @@ const CVAnalyzerForm = () => {
               id="jobDescription"
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
-              className="w-full min-h-[150px] p-3 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-gray-700 text-gray-100 placeholder-gray-500"
+              className="w-full min-h-[90px] p-3 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-gray-700 text-gray-100 placeholder-gray-500"
               placeholder="Paste the job description here..."
               required
             />
@@ -145,7 +133,7 @@ const CVAnalyzerForm = () => {
                 htmlFor="cv-upload"
                 className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-600 border-dashed rounded-lg cursor-pointer hover:bg-gray-700 hover:border-gray-500 transition-colors duration-150"
               >
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                <div className="flex flex-col items-center justify-center pt-2 pb-3">
                   <Upload className="w-8 h-8 mb-2 text-gray-400" />
                   <p className="mb-2 text-sm text-gray-400">
                     <span className="font-semibold">Click to upload</span> or
