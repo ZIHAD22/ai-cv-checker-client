@@ -3,7 +3,6 @@ import CVAnalysisResults from "../../component/home/analyzeReport";
 import { Upload, X } from "lucide-react";
 import { Loader } from "lucide-react";
 import { useState } from "react";
-import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 // Register chart components
@@ -54,7 +53,7 @@ const CVAnalyzerForm = () => {
     setSelectedFile(null);
     setError("");
   };
-console.log(analysisData)
+  console.log(analysisData);
   if (isLoading) {
     return (
       <div className="w-[40vw] flex justify-center items-center">
@@ -64,19 +63,6 @@ console.log(analysisData)
   }
 
   if (analysisData) {
-    // Assume analysisData.match_score exists and is a number between 0 and 100
-    const matchScore = analysisData.percentage || 0;
-    const pieData = {
-      labels: ["Match Score", "Mismatch"],
-      datasets: [
-        {
-          data: [matchScore, 100 - matchScore],
-          backgroundColor: ["#36A2EB", "#FF6384"],
-          hoverBackgroundColor: ["#36A2EB", "#FF6384"],
-        },
-      ],
-    };
-
     return (
       <div className="relative w-full max-w-2xl mx-auto">
         <button
@@ -92,9 +78,7 @@ console.log(analysisData)
           error={error}
         />
         <div className="mt-4 p-4 bg-gray-800 rounded-lg">
-          <h2 className="text-xl font-bold text-gray-100 mb-2">
-            Match Score
-          </h2>
+          <h2 className="text-xl font-bold text-gray-100 mb-2">Match Score</h2>
         </div>
       </div>
     );

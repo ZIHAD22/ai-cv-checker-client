@@ -7,11 +7,13 @@ import SendEmail from "../pages/Dashboard/SendEmail.jsx";
 import QuestionGeneration from "../pages/Dashboard/QuestionGeneration.jsx";
 import Auth from "../pages/auth/auth.jsx";
 import Test from "../pages/Home/test.jsx";
+import PrivateRoute from "../utils/PrivateRoute.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
-  }, {
+  },
+  {
     path: "/test",
     element: <Test />,
   },
@@ -21,7 +23,11 @@ const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <Dashboard />,
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "cv-sorter",

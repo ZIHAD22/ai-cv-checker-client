@@ -1,5 +1,5 @@
 import SingleInput from "../../component/singleInput";
-import axios from "axios";
+import axios from "../../utils/axios.js";
 import { Loader, AlertCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -7,12 +7,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 const SignUpForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   // Initialize isLogin based on URL parameter
   const [isLogin, setIsLogin] = useState(() => {
     const params = new URLSearchParams(location.search);
-    const method = params.get('method');
-    return method === 'signup' ? false : true;
+    const method = params.get("method");
+    return method === "signup" ? false : true;
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -26,8 +26,8 @@ const SignUpForm = () => {
   // Update state when URL changes
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const method = params.get('method');
-    setIsLogin(method === 'signup' ? false : true);
+    const method = params.get("method");
+    setIsLogin(method === "signup" ? false : true);
   }, [location.search]);
 
   // Login form state
@@ -126,12 +126,14 @@ const SignUpForm = () => {
       const payload = isLogin
         ? { email: loginData.email, password: loginData.password }
         : { email: signupData.email, password: signupData.password };
-        const { data, status } = await axios.post(endpoint, payload, {
-          withCredentials: true,
-        });
+      // eslint-disable-next-line no-unused-vars
+      const { data, status } = await axios.post(endpoint, payload, {
+        withCredentials: true,
+      });
 
-      if (status === 201) {
+      if ((status === 201 || status === 200) && data.jwt_token) {
         navigate("/dashboard");
+        localStorage.setItem("jwt_token", data.jwt_token);
       }
     } catch (err) {
       const errorMessage =
@@ -146,12 +148,12 @@ const SignUpForm = () => {
   const toggleMode = () => {
     const newIsLogin = !isLogin;
     setIsLogin(newIsLogin);
-    
+
     // Update URL
     const params = new URLSearchParams(location.search);
-    params.set('method', newIsLogin ? 'login' : 'signup');
+    params.set("method", newIsLogin ? "login" : "signup");
     navigate(`${location.pathname}?${params.toString()}`);
-    
+
     // Reset form states
     setError({ email: "", password: "", confirmPassword: "", general: "" });
     setLoginData({ email: "", password: "", rememberMe: false });

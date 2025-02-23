@@ -1,4 +1,5 @@
-import { Link, Outlet, useLocation } from "react-router";
+import { Link, Outlet, useLocation, useNavigate } from "react-router";
+import { IoIosLogOut } from "react-icons/io";
 import {
   FaRocket,
   FaFileAlt,
@@ -10,6 +11,7 @@ import {
 
 const Dashboard = () => {
   const location = useLocation();
+  const navigation = useNavigate();
   const features = [
     {
       icon: <FaRocket className="text-primary text-3xl" />,
@@ -45,6 +47,12 @@ const Dashboard = () => {
     },
   ];
 
+  const handleLogOut = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    localStorage.removeItem("jwt_token");
+    navigation("/");
+  };
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -84,13 +92,18 @@ const Dashboard = () => {
       </div>
       <div className="drawer-side">
         <Link to="/dashboard" className="p-4 block text-center mx-auto ">
-          <label
-            htmlFor="my-drawer-2"
-            aria-label="close sidebar"
-            className="cursor-pointer"
-          >
-            Intelligent - HR
-          </label>
+          <div className="flex justify-evenly items-center">
+            <label
+              htmlFor="my-drawer-2"
+              aria-label="close sidebar"
+              className="cursor-pointer"
+            >
+              Intelligent - HR
+            </label>
+            <span>
+              <IoIosLogOut size="25" onClick={handleLogOut} />
+            </span>
+          </div>
         </Link>
         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
           {/* Sidebar content here */}
