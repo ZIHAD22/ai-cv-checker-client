@@ -1,6 +1,6 @@
 import Navbar from "../../component/home/navBar";
 import CVAnalyzerForm from "./analyze";
-import SignUpForm from "./signUpForm";
+
 
 const Home = () => {
   return (

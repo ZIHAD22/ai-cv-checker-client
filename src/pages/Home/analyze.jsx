@@ -2,7 +2,12 @@ import axios from "../../api/api";
 import CVAnalysisResults from "../../component/home/analyzeReport";
 import { Upload, X } from "lucide-react";
 import { Loader } from "lucide-react";
-import { useState} from "react";
+import { useState } from "react";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
+// Register chart components
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const CVAnalyzerForm = () => {
   const [jobDescription, setJobDescription] = useState("");
@@ -10,15 +15,6 @@ const CVAnalyzerForm = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [analysisData, setAnalysisData] = useState(null);
-  // const [hasUsedFeature, setHasUsedFeature] = useState(false);
-
-  // Check if user has already used the feature
-  // useEffect(() => {
-  //   const usageStatus = localStorage.getItem("cv-analyzer-usage");
-  //   if (usageStatus) {
-  //     setHasUsedFeature(true);
-  //   }
-  // }, []);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -44,7 +40,7 @@ const CVAnalyzerForm = () => {
     try {
       const { data } = await axios.post("/analyze-resume", formData);
       setAnalysisData(data);
-      localStorage.setItem('cv-analyzer-usage', 'true');
+      localStorage.setItem("cv-analyzer-usage", "true");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to analyze CV");
     } finally {
@@ -58,9 +54,7 @@ const CVAnalyzerForm = () => {
     setSelectedFile(null);
     setError("");
   };
-
-
-
+console.log(analysisData)
   if (isLoading) {
     return (
       <div className="w-[40vw] flex justify-center items-center">
@@ -70,6 +64,19 @@ const CVAnalyzerForm = () => {
   }
 
   if (analysisData) {
+    // Assume analysisData.match_score exists and is a number between 0 and 100
+    const matchScore = analysisData.percentage || 0;
+    const pieData = {
+      labels: ["Match Score", "Mismatch"],
+      datasets: [
+        {
+          data: [matchScore, 100 - matchScore],
+          backgroundColor: ["#36A2EB", "#FF6384"],
+          hoverBackgroundColor: ["#36A2EB", "#FF6384"],
+        },
+      ],
+    };
+
     return (
       <div className="relative w-full max-w-2xl mx-auto">
         <button
@@ -84,6 +91,11 @@ const CVAnalyzerForm = () => {
           isLoading={isLoading}
           error={error}
         />
+        <div className="mt-4 p-4 bg-gray-800 rounded-lg">
+          <h2 className="text-xl font-bold text-gray-100 mb-2">
+            Match Score
+          </h2>
+        </div>
       </div>
     );
   }
@@ -99,7 +111,6 @@ const CVAnalyzerForm = () => {
           Upload your CV and provide the job description to analyze how well
           your profile matches the requirements.
         </p>
-        
       </div>
 
       {/* Form Content */}

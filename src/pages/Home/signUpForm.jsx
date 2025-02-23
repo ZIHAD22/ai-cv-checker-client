@@ -126,8 +126,9 @@ const SignUpForm = () => {
       const payload = isLogin
         ? { email: loginData.email, password: loginData.password }
         : { email: signupData.email, password: signupData.password };
-
-      const { data, status } = await axios.post(endpoint, payload);
+        const { data, status } = await axios.post(endpoint, payload, {
+          withCredentials: true,
+        });
 
       if (status === 201) {
         navigate("/dashboard");

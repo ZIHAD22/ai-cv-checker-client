@@ -6,10 +6,14 @@ import ExtractData from "../pages/Dashboard/ExtractData.jsx";
 import SendEmail from "../pages/Dashboard/SendEmail.jsx";
 import QuestionGeneration from "../pages/Dashboard/QuestionGeneration.jsx";
 import Auth from "../pages/auth/auth.jsx";
+import Test from "../pages/Home/test.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  }, {
+    path: "/test",
+    element: <Test />,
   },
   {
     path: "/auth",
