@@ -1,4 +1,5 @@
 import { AlertCircle, CheckCircle2, XCircle } from "lucide-react";
+import { Pie } from "react-chartjs-2";
 
 const CVAnalysisResults = ({ analysisData, isLoading, error }) => {
   if (isLoading) {
@@ -30,6 +31,23 @@ const CVAnalysisResults = ({ analysisData, isLoading, error }) => {
 
   if (!analysisData) return null;
 
+  let pieData;
+
+  if (analysisData) {
+    // Assume analysisData.match_score exists and is a number between 0 and 100
+    const matchScore = analysisData.percentage || 0;
+    pieData = {
+      labels: ["Match Score", "Mismatch"],
+      datasets: [
+        {
+          data: [matchScore, 100 - matchScore],
+          backgroundColor: ["#36A2EB", "#FF6384"],
+          hoverBackgroundColor: ["#36A2EB", "#FF6384"],
+        },
+      ],
+    };
+  }
+
   const { percentage, missing_skills, potential_questions } = analysisData;
   return (
     <div className="mt-6 space-y-4 max-h-[600px] overflow-y-scroll">
@@ -46,7 +64,8 @@ const CVAnalysisResults = ({ analysisData, isLoading, error }) => {
                 : "text-red-400"
             }`}
           >
-            {percentage}%
+            
+          <Pie data={pieData} />
           </div>
         </div>
       </div>

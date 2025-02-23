@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import axios from "../../api/api";
 import Loading from "../../component/Loading";
 import loader from "../../assets/loading.gif";
 import { Upload } from "lucide-react";
@@ -14,7 +14,6 @@ const CvSorter = () => {
   const handleFileChange = (event) => {
     setCvFiles(event.target.files);
   };
-
   const handleUpload = async () => {
     setLoading(true);
     if (!jobDescription || cvFiles.length === 0) {
@@ -22,23 +21,25 @@ const CvSorter = () => {
       setLoading(false);
       return;
     }
-
+    
     const formData = new FormData();
     formData.append("job_description", jobDescription);
-
+    
     for (let i = 0; i < cvFiles.length; i++) {
       formData.append("cv_files", cvFiles[i]);
     }
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/cv-sort",
+        "/cv-sort",
         formData,
         {
+          withCredentials:true,
           headers: {
             "Content-Type": "multipart/form-data",
           },
         }
+
       );
 
       if (response.data) {
