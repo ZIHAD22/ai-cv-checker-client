@@ -10,10 +10,15 @@ const CvSorter = () => {
   const [message, setMessage] = useState("");
   const [results, setResults] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [filteredResults, setFilteredResults] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [matchFilter, setMatchFilter] = useState("");
+  const [resultsPerPage, setResultsPerPage] = useState(5);
 
   const handleFileChange = (event) => {
     setCvFiles(event.target.files);
   };
+
   const handleUpload = async () => {
     setLoading(true);
     if (!jobDescription || cvFiles.length === 0) {
@@ -21,34 +26,27 @@ const CvSorter = () => {
       setLoading(false);
       return;
     }
-    
+
     const formData = new FormData();
     formData.append("job_description", jobDescription);
-    
+
     for (let i = 0; i < cvFiles.length; i++) {
       formData.append("cv_files", cvFiles[i]);
     }
 
     try {
-      const response = await axios.post(
-        "/cv-sort",
-        formData,
-        {
-          withCredentials:true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-
-      );
+      const response = await axios.post("/cv-sort", formData, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       if (response.data) {
-        // Convert object to array, sort by "match" in descending order, and convert back to object
-        const sortedResults = Object.fromEntries(
-          Object.entries(response.data).sort((a, b) => b[1].match - a[1].match)
-        );
+        const sortedResults = Object.entries(response.data)
+          .sort((a, b) => b[1].match - a[1].match)
+          .map(([fileName, data]) => ({ fileName, ...data }));
 
-        setResults(sortedResults); // Store sorted results
+        setResults(sortedResults);
+        setFilteredResults(sortedResults);
         setLoading(false);
         setMessage("CVs Analysis successfully!");
       }
@@ -59,12 +57,47 @@ const CvSorter = () => {
     }
   };
 
+  const handleFilterApply = () => {
+    if (matchFilter === "") {
+      setFilteredResults(results);
+    } else {
+      const filtered = results.filter(
+        (cv) => cv.match === parseInt(matchFilter, 10)
+      );
+      setFilteredResults(filtered);
+    }
+    setCurrentPage(1);
+  };
+
+  const handleClearFilter = () => {
+    setMatchFilter("");
+    setFilteredResults(results);
+    setCurrentPage(1);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleFilterApply();
+    }
+  };
+
+  const indexOfLastResult = currentPage * resultsPerPage;
+  const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+  const currentResults = filteredResults.slice(
+    indexOfFirstResult,
+    indexOfLastResult
+  );
+
+  const totalPages = Math.ceil(filteredResults.length / resultsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   if (isLoading) {
     return <Loading loader={loader} />;
   }
 
   return (
-    <div className="flex flex-col  p-6  shadow-md w-full mx-auto text-[#ffffff]">
+    <div className="flex flex-col p-6 shadow-md w-full mx-auto text-[#ffffff]">
       <h2 className="text-2xl font-semibold mb-4">Upload CVs for Sorting</h2>
 
       <div className="space-y-2 my-5">
@@ -99,15 +132,20 @@ const CvSorter = () => {
           <div className="my-4">
             <p className="text-sm text-gray-400">Selected Files:</p>
             <ul className="list-disc pl-6 text-sm text-gray-300">
-              {Array.from(cvFiles).map((file, index) => (
-                <li key={index}>{file.name}</li>
-              ))}
+              {Array.from(cvFiles)
+                .slice(0, 3)
+                .map((file, index) => (
+                  <li key={index}>{file.name}</li>
+                ))}
+              {cvFiles.length > 3 && (
+                <li className="text-gray-400 font-semibold">
+                  +{cvFiles.length - 3} more
+                </li>
+              )}
             </ul>
           </div>
         )}
       </div>
-
-      {/* Job Description Input */}
 
       <div>
         <label className="block text-sm font-medium text-gray-300">
@@ -120,50 +158,114 @@ const CvSorter = () => {
         />
       </div>
 
-      {/* Upload Button */}
       <button onClick={handleUpload} className="btn btn-secondary w-1/6 mb-4">
-        Analysis Cvs
+        Analyze CVs
       </button>
 
-      {/* Message */}
       {message && (
         <div className="alert alert-info w-full">
           <span>{message}</span>
         </div>
       )}
 
-      {/* Results Table */}
-      {results.length !== 0 && (
-        <div className="overflow-x-auto w-full mt-6">
-          <table className="table w-full table-auto">
-            <thead>
-              <tr>
-                <th>File Name</th>
-                <th>Match Percentage</th>
-                <th>Download Link</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(results).map(
-                ([fileName, { match, download_link }]) => (
-                  <tr key={fileName}>
-                    <td>{fileName}</td>
-                    <td>{match}%</td>
-                    <td>
-                      <a
-                        href={`http://127.0.0.1:5000/${download_link}`}
-                        className="text-blue-500"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Download
-                      </a>
-                    </td>
+      {results.length > 0 && (
+        <div className="overflow-x-auto w-full mt-6 mb-50">
+          <div className="flex mb-4">
+            <div className="flex justify-between items-center mb-4">
+              <label className="block text-sm font-medium text-gray-300">
+                Results Per Page:
+                <select
+                  value={resultsPerPage}
+                  onChange={(e) => setResultsPerPage(parseInt(e.target.value))}
+                  className="select select-bordered select-primary p-2 bg-gray-800 text-white"
+                >
+                  <option value="3">3</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                </select>
+              </label>
+            </div>
+            <div className="flex flex-col mx-2">
+              <label className="text-sm font-medium text-gray-300">
+                Filter :
+              </label>
+              <input
+                type="number"
+                placeholder="Enter Match %"
+                value={matchFilter}
+                onChange={(e) => setMatchFilter(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="input input-bordered input-primary p-2 w-24 bg-gray-800 text-white"
+              />
+            </div>
+            <button
+              onClick={handleFilterApply}
+              className="btn btn-primary ml-2 mt-5"
+            >
+              Apply Filter
+            </button>
+            <button
+              onClick={handleClearFilter}
+              className="btn btn-secondary ml-2 mt-5"
+            >
+              Clear Filter
+            </button>
+          </div>
+
+          {filteredResults.length === 0 ? (
+            <div className="text-center text-red-500 font-semibold">
+              No Match Found
+            </div>
+          ) : (
+            <>
+              <table className="table w-full table-auto">
+                <thead>
+                  <tr>
+                    <th>File Name</th>
+                    <th>Match Percentage</th>
+                    <th>Download Link</th>
                   </tr>
-                )
-              )}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                  {currentResults.map(({ fileName, match, download_link }) => (
+                    <tr key={fileName}>
+                      <td>{fileName}</td>
+                      <td>{match}%</td>
+                      <td>
+                        <a
+                          href={`http://127.0.0.1:5000/${download_link}`}
+                          className="text-blue-500"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Download
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <div className="flex justify-center mt-4">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (number) => (
+                    <button
+                      key={number}
+                      onClick={() => paginate(number)}
+                      className={`btn mx-1 ${
+                        currentPage === number
+                          ? "btn bg-green-700"
+                          : "btn bg-white text-black"
+                      }`}
+                    >
+                      {number}
+                    </button>
+                  )
+                )}
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
