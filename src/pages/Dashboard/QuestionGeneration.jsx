@@ -101,6 +101,24 @@ const QuestionGeneration = () => {
             />
           </label>
         </div>
+        {/* Show selected files */}
+        {questionFiles && questionFiles.length > 0 && (
+          <div className="my-4">
+            <p className="text-sm text-gray-400">Selected Files:</p>
+            <ul className="list-disc pl-6 text-sm text-gray-300">
+              {Array.from(questionFiles)
+                .slice(0, 3)
+                .map((file, index) => (
+                  <li key={index}>{file.name}</li>
+                ))}
+              {questionFiles.length > 3 && (
+                <li className="text-gray-400 font-semibold">
+                  +{questionFiles.length - 3} more
+                </li>
+              )}
+            </ul>
+          </div>
+        )}
       </div>
 
       {/* Job Description */}
