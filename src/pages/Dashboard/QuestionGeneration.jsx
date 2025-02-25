@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { Upload } from "lucide-react";
 
@@ -9,22 +9,9 @@ const QuestionGeneration = () => {
   const [message, setMessage] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-  // Load results from localStorage on component mount
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      const savedResults = localStorage.getItem("generatedQuestions");
-      if (savedResults) {
-        setResults(JSON.parse(savedResults));
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    // Cleanup the event listener when the component unmounts
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [resultsPerPage, setResultsPerPage] = useState(5);
 
   const handleFileChange = (event) => {
     setQuestionFiles(event.target.files);
@@ -34,7 +21,7 @@ const QuestionGeneration = () => {
     localStorage.removeItem("generatedQuestions");
     setLoading(true);
     setMessage("");
-    setResults([]); // Clear previous results before generating new ones
+    setResults([]);
 
     if (!jobDescription || questionFiles.length === 0) {
       setMessage("Please add a job description and select at least one CV.");
@@ -53,19 +40,11 @@ const QuestionGeneration = () => {
       const response = await axios.post(
         "http://127.0.0.1:5000/generate-questions",
         formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       if (response.data.files) {
         setResults(response.data.files);
-        localStorage.setItem(
-          "generatedQuestions",
-          JSON.stringify(response.data.files)
-        ); // Save results to localStorage
         setMessage("Questions generated successfully!");
       }
     } catch (error) {
@@ -76,13 +55,25 @@ const QuestionGeneration = () => {
     setLoading(false);
   };
 
+  // Pagination logic
+  const indexOfLastResult = currentPage * resultsPerPage;
+  const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+  const currentResults = results.slice(indexOfFirstResult, indexOfLastResult);
+  const totalPages = Math.ceil(results.length / resultsPerPage);
+
+  const paginate = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
   return (
     <div className="flex flex-col p-6 shadow-md w-full mx-auto text-white">
       <h2 className="text-2xl font-semibold mb-4">
         Generate Interview Questions
       </h2>
 
-      {/* CV Files Input */}
+      {/* File Upload */}
       <div className="space-y-2 my-5">
         <label className="block text-sm font-medium text-gray-300">
           Upload CVs (PDF only)
@@ -110,19 +101,9 @@ const QuestionGeneration = () => {
             />
           </label>
         </div>
-        {/* Show selected files */}
-        {questionFiles && questionFiles.length > 0 && (
-          <div className="my-4">
-            <p className="text-sm text-gray-400">Selected Files:</p>
-            <ul className="list-disc pl-6 text-sm text-gray-300">
-              {Array.from(questionFiles).map((file, index) => (
-                <li key={index}>{file.name}</li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
 
+      {/* Job Description */}
       <div className="space-y-2 my-5">
         <label className="block text-sm font-medium text-gray-300">
           Job Description
@@ -141,15 +122,37 @@ const QuestionGeneration = () => {
         onClick={handleGenerate}
         disabled={isLoading}
       >
-        <Upload size={16} />{" "}
+        <Upload size={16} />
         {isLoading ? "Generating..." : "Generate Questions"}
       </button>
 
       {message && <p className="mt-4 text-sm text-gray-300">{message}</p>}
 
+      {/* Results Table with Pagination */}
       {results.length > 0 && (
-        <div className="mt-6">
+        <div className="mt-6 mb-50">
           <h3 className="text-lg font-semibold">Generated Questions</h3>
+
+          {/* Pagination Size Selector */}
+          <div className="flex justify-between items-center mb-4">
+            <label className="block text-sm font-medium text-gray-300">
+              Results Per Page:
+              <select
+                value={resultsPerPage}
+                onChange={(e) => {
+                  setResultsPerPage(parseInt(e.target.value));
+                  setCurrentPage(1); // Reset to first page
+                }}
+                className="select select-bordered select-primary p-2 bg-gray-800 text-white"
+              >
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+              </select>
+            </label>
+          </div>
+
           <div className="overflow-x-auto mt-4">
             <table className="table-auto w-full border-collapse border border-gray-600">
               <thead>
@@ -167,7 +170,7 @@ const QuestionGeneration = () => {
                 </tr>
               </thead>
               <tbody>
-                {results.map((file, index) => (
+                {currentResults.map((file, index) => (
                   <tr key={index} className="text-gray-300">
                     <td className="border border-gray-600 px-4 py-2 text-center">
                       {index + 1}
@@ -199,6 +202,23 @@ const QuestionGeneration = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Pagination Buttons */}
+          <div className="flex justify-center mt-4 space-x-2">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+              (number) => (
+                <button
+                  key={number}
+                  onClick={() => paginate(number)}
+                  className={`btn mx-1 ${
+                    currentPage === number ? "btn-primary" : "btn-secondary"
+                  }`}
+                >
+                  {number}
+                </button>
+              )
+            )}
           </div>
         </div>
       )}
