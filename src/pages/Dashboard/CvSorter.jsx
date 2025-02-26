@@ -58,15 +58,18 @@ const CvSorter = () => {
   };
 
   const handleFilterApply = () => {
-    if (matchFilter === "") {
+    if (
+      matchFilter === "" ||
+      isNaN(matchFilter) ||
+      parseInt(matchFilter) <= 0
+    ) {
       setFilteredResults(results);
     } else {
-      const filtered = results.filter(
-        (cv) => cv.match === parseInt(matchFilter, 10)
-      );
+      const topN = parseInt(matchFilter, 10);
+      const filtered = results.slice(0, topN);
       setFilteredResults(filtered);
     }
-    setCurrentPage(1);
+    setCurrentPage(1); // Reset to first page
   };
 
   const handleClearFilter = () => {
