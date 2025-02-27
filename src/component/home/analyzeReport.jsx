@@ -1,5 +1,5 @@
 import { AlertCircle, CheckCircle2, XCircle } from "lucide-react";
-import { Pie } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 
 const CVAnalysisResults = ({ analysisData, isLoading, error }) => {
   if (isLoading) {
@@ -31,41 +31,61 @@ const CVAnalysisResults = ({ analysisData, isLoading, error }) => {
 
   if (!analysisData) return null;
 
-  let pieData;
-
-  if (analysisData) {
-    // Assume analysisData.match_score exists and is a number between 0 and 100
+  // Chart data and options for doughnut chart
+  const createDoughnutData = () => {
+    // Use percentage from analysisData or default to 0
     const matchScore = analysisData.percentage || 0;
-    pieData = {
+    
+    return {
       labels: ["Match Score", "Mismatch"],
       datasets: [
         {
           data: [matchScore, 100 - matchScore],
           backgroundColor: ["#36A2EB", "#FF6384"],
           hoverBackgroundColor: ["#36A2EB", "#FF6384"],
+          borderWidth: 0,
+          cutout: '70%', // This creates the doughnut effect
         },
       ],
     };
-  }
+  };
+
+  const chartOptions = {
+    plugins: {
+      legend: {
+        display: false, // Hide the legend
+      },
+      tooltip: {
+        enabled: true, // Enable tooltips on hover
+      },
+    },
+    responsive: true,
+    maintainAspectRatio: true,
+  };
 
   const { percentage, missing_skills, potential_questions } = analysisData;
   return (
     <div className="mt-6 space-y-4 max-h-[600px] overflow-y-scroll">
       {/* Overall Match Score */}
       <div className="p-6 bg-gray-800 rounded-lg border border-gray-700">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-100">Match Score</h2>
-          <div
-            className={`text-2xl font-bold ${
-              percentage >= 70
-                ? "text-green-400"
-                : percentage >= 50
-                ? "text-yellow-400"
-                : "text-red-400"
-            }`}
-          >
-            
-          <Pie data={pieData} />
+        <div className="flex flex-col items-center">
+          <h2 className="text-xl font-semibold text-gray-100 mb-4">Match Score</h2>
+          <div className="relative w-48 h-48">
+            <Doughnut data={createDoughnutData()} options={chartOptions} />
+            <div className="absolute inset-0 flex items-center justify-center flex-col">
+              <span 
+                className={`text-3xl font-bold ${
+                  percentage >= 70
+                    ? "text-green-400"
+                    : percentage >= 50
+                    ? "text-yellow-400"
+                    : "text-red-400"
+                }`}
+              >
+                {percentage}%
+              </span>
+              <span className="text-sm text-gray-400">Match</span>
+            </div>
           </div>
         </div>
       </div>
