@@ -232,14 +232,14 @@ const SignUpForm = () => {
                     />
                     <p className="ml-2">Remember for 30 days</p>
                   </div>
-                  <div>
+                  {/* <div>
                     <a
                       href=""
                       className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
                     >
                       Forgot password?
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               )}
 
