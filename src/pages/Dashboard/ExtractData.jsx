@@ -1,8 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import loader from "../../assets/export-data.gif";
-import Loading from "../../component/Loading";
 import { Upload } from "lucide-react";
+import { Loader } from "lucide-react";
 
 const ExtractData = () => {
   const [selectedFiles, setSelectedFiles] = useState(null);
@@ -73,7 +72,16 @@ const ExtractData = () => {
   };
 
   if (isLoading) {
-    return <Loading loader={loader} />;
+    return <div className="flex h-[100vh] justify-center items-center">
+
+        <div>
+        <div>Extracting Text...</div>
+        <div className="flex items-center justify-center mt-5">
+          
+        <Loader className="animate-spin w-8 h-8 text-gray-500" />
+        </div>
+        </div>
+    </div>;
   }
 
   return (
