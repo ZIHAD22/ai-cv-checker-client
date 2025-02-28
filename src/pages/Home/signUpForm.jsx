@@ -1,6 +1,6 @@
 import SingleInput from "../../component/singleInput";
 import axios from "../../utils/axios.js";
-import { Loader, AlertCircle } from "lucide-react";
+import { Loader, AlertCircle, CheckCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -16,6 +16,7 @@ const SignUpForm = () => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
   const [error, setError] = useState({
     email: "",
     password: "",
@@ -131,9 +132,25 @@ const SignUpForm = () => {
         withCredentials: true,
       });
 
-      if ((status === 201 || status === 200) && data.jwt_token) {
+      if (isLogin && (status === 201 || status === 200) && data.jwt_token) {
         navigate("/dashboard");
         localStorage.setItem("jwt_token", data.jwt_token);
+      } else if (!isLogin && (status === 201 || status === 200)) {
+        // Set successful signup state
+        setSignupSuccess(true);
+        // Update URL
+        const params = new URLSearchParams(location.search);
+        params.set("method", "login");
+        navigate(`${location.pathname}?${params.toString()}`);
+        // Set isLogin to true to show login form with success message
+        setIsLogin(true);
+        // Pre-fill email from signup
+        setLoginData(prev => ({
+          ...prev,
+          email: signupData.email
+        }));
+        // Reset signup form
+        setSignupData({ email: "", password: "", confirmPassword: "" });
       }
     } catch (err) {
       const errorMessage =
@@ -158,6 +175,8 @@ const SignUpForm = () => {
     setError({ email: "", password: "", confirmPassword: "", general: "" });
     setLoginData({ email: "", password: "", rememberMe: false });
     setSignupData({ email: "", password: "", confirmPassword: "" });
+    // Reset success state when switching modes
+    setSignupSuccess(false);
   };
 
   return (
@@ -179,6 +198,17 @@ const SignUpForm = () => {
                   : "Please fill in your information"}
               </p>
             </div>
+
+            {/* Success Message */}
+            {signupSuccess && (
+              <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-2">
+                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                <div className="text-sm text-green-700">
+                  <p className="font-semibold">Sign-up successful!</p>
+                  <p>Please log in with your credentials below.</p>
+                </div>
+              </div>
+            )}
 
             {error.general && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
@@ -252,16 +282,19 @@ const SignUpForm = () => {
             </form>
           </div>
 
-          <p className="text-sm mt-6">
-            {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
-            <button
-              type="button"
-              className="font-semibold text-[#1d1e22] hover:text-[#666] transition-colors duration-200"
-              onClick={toggleMode}
-            >
-              {isLogin ? "Sign up" : "Login"}
-            </button>
-          </p>
+          {/* Only show the toggle option if we're not coming from a successful signup */}
+          {!signupSuccess && (
+            <p className="text-sm mt-6">
+              {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+              <button
+                type="button"
+                className="font-semibold text-[#1d1e22] hover:text-[#666] transition-colors duration-200"
+                onClick={toggleMode}
+              >
+                {isLogin ? "Sign up" : "Login"}
+              </button>
+            </p>
+          )}
         </>
       )}
     </div>
