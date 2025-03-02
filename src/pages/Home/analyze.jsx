@@ -77,9 +77,6 @@ const CVAnalyzerForm = () => {
           isLoading={isLoading}
           error={error}
         />
-        <div className="mt-4 p-4 bg-gray-800 rounded-lg">
-          <h2 className="text-xl font-bold text-gray-100 mb-2">Match Score</h2>
-        </div>
       </div>
     );
   }
