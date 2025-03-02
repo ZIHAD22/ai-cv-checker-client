@@ -43,6 +43,8 @@ const QuestionGeneration = () => {
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
+      console.log(response);
+
       if (response.data.files) {
         setResults(response.data.files);
         setMessage("Questions generated successfully!");
@@ -198,9 +200,7 @@ const QuestionGeneration = () => {
                     </td>
                     <td className="border border-gray-600 px-4 py-2 text-center">
                       <a
-                        href={`http://127.0.0.1:5000/download-file/${encodeURIComponent(
-                          file.docx
-                        )}`}
+                        href={`http://127.0.0.1:5000/download-file/${file.docx}`}
                         className="text-blue-400 hover:underline"
                       >
                         Download DOCX
@@ -208,9 +208,7 @@ const QuestionGeneration = () => {
                     </td>
                     <td className="border border-gray-600 px-4 py-2 text-center">
                       <a
-                        href={`http://127.0.0.1:5000/download-file/${encodeURIComponent(
-                          file.pdf
-                        )}`}
+                        href={`http://127.0.0.1:5000/download-file/${file.pdf}`}
                         className="text-blue-400 hover:underline"
                       >
                         Download PDF
