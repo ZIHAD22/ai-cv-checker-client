@@ -51,7 +51,7 @@ const SendEmail = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/send-email",
+        "https://aicvchecker.software/api/send-email",
         formData,
         {
           headers: {

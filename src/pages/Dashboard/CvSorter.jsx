@@ -237,7 +237,7 @@ const CvSorter = () => {
                       <td>{match}%</td>
                       <td>
                         <a
-                          href={`http://127.0.0.1:5000/${download_link}`}
+                          href={`https://aicvchecker.software/api/${download_link}`}
                           className="text-blue-500"
                           target="_blank"
                           rel="noopener noreferrer"

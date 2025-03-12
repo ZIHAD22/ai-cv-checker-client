@@ -37,7 +37,7 @@ const ExtractData = () => {
 
       // Sending form data using axios
       const response = await axios.post(
-        "http://127.0.0.1:5000/extract-text",
+        "https://aicvchecker.software/api/extract-text",
         formData,
         {
           headers: {

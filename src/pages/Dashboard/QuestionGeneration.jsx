@@ -38,7 +38,7 @@ const QuestionGeneration = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/generate-questions",
+        "https://aicvchecker.software/api/generate-questions",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -200,7 +200,7 @@ const QuestionGeneration = () => {
                     </td>
                     <td className="border border-gray-600 px-4 py-2 text-center">
                       <a
-                        href={`http://127.0.0.1:5000/download-file/${file.docx}`}
+                        href={`https://aicvchecker.software/api/download-file/${file.docx}`}
                         className="text-blue-400 hover:underline"
                       >
                         Download DOCX
@@ -208,7 +208,7 @@ const QuestionGeneration = () => {
                     </td>
                     <td className="border border-gray-600 px-4 py-2 text-center">
                       <a
-                        href={`http://127.0.0.1:5000/download-file/${file.pdf}`}
+                        href={`https://aicvchecker.software/api/download-file/${file.pdf}`}
                         className="text-blue-400 hover:underline"
                       >
                         Download PDF
