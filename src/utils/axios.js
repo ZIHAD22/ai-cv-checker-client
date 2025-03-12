@@ -3,7 +3,7 @@ import axios from "axios";
 axios.interceptors.request.use(
   function (config) {
     config.headers.authorization = `${localStorage.getItem("jwt_token")} `;
-    console.log(localStorage.getItem("jwt_token"));
+    // console.log(localStorage.getItem("jwt_token"));
     return config;
   },
   function (error) {
