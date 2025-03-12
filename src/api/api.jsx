@@ -2,7 +2,7 @@ import axios from "axios";
 // Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
-    config.baseURL = 'http://localhost:5000';
+    config.baseURL = 'https://aicvchecker.software/api';
     // config.headers.authorization = `${localStorage.getItem("jwt_token")} `;
     return config;
   },
