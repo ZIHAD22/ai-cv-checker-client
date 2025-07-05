@@ -145,9 +145,9 @@ const SignUpForm = () => {
         // Set isLogin to true to show login form with success message
         setIsLogin(true);
         // Pre-fill email from signup
-        setLoginData(prev => ({
+        setLoginData((prev) => ({
           ...prev,
-          email: signupData.email
+          email: signupData.email,
         }));
         // Reset signup form
         setSignupData({ email: "", password: "", confirmPassword: "" });
@@ -180,15 +180,15 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-[#fff] text-[#1e1f23] py-9 px-6 sm:px-8 flex flex-col items-center justify-between rounded-[10px] min-h-[500px]">
+    <div className="w-full max-w-[90%] mx-auto bg-[#80808040] text-white py-9 px-6 sm:px-8 flex flex-col items-center justify-between rounded-[10px] min-h-[800px] mt-10">
       {isLoading ? (
         <div className="w-full flex justify-center items-center min-h-[400px]">
           <Loader className="animate-spin w-8 h-8 text-gray-500" />
         </div>
       ) : (
         <>
-          <div className="w-full">
-            <div className="mb-8">
+          <div className="w-[700px] mt-20">
+            <div className="mb-30">
               <h1 className="text-center text-4xl font-bold py-3">
                 {isLogin ? "Welcome back!" : "Create Account"}
               </h1>
@@ -225,7 +225,6 @@ const SignUpForm = () => {
                 value={isLogin ? loginData.email : signupData.email}
                 onChange={isLogin ? handleLoginChange : handleSignupChange}
                 error={error.email}
-                required
               />
 
               <SingleInput
@@ -235,7 +234,6 @@ const SignUpForm = () => {
                 value={isLogin ? loginData.password : signupData.password}
                 onChange={isLogin ? handleLoginChange : handleSignupChange}
                 error={error.password}
-                required
               />
 
               {!isLogin && (
@@ -246,7 +244,6 @@ const SignUpForm = () => {
                   value={signupData.confirmPassword}
                   onChange={handleSignupChange}
                   error={error.confirmPassword}
-                  required
                 />
               )}
 
@@ -275,7 +272,7 @@ const SignUpForm = () => {
 
               <button
                 type="submit"
-                className="w-full py-2.5 bg-[#1d1e22] text-white rounded-full text-base font-medium hover:bg-[#2d2e32] transition-colors duration-200 mt-6"
+                className="btn bg-gradient-to-r from-[#4D2A69] to-[#8640A8] w-full mb-4 mx-auto border-0"
               >
                 {isLogin ? "Login" : "Sign Up"}
               </button>
@@ -288,7 +285,7 @@ const SignUpForm = () => {
               {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
               <button
                 type="button"
-                className="font-semibold text-[#1d1e22] hover:text-[#666] transition-colors duration-200"
+                className="font-semibold text-white transition-colors duration-200 cursor-pointer"
                 onClick={toggleMode}
               >
                 {isLogin ? "Sign up" : "Login"}
