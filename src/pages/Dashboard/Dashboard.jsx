@@ -54,7 +54,7 @@ const Dashboard = () => {
     navigation("/");
   };
   return (
-    <div className="drawer lg:drawer-open">
+    <div className="drawer lg:drawer-open bg-[#070C10]">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Page content here */}
@@ -90,7 +90,7 @@ const Dashboard = () => {
           Open drawer
         </label>
       </div>
-      <div className="drawer-side">
+      <div className="drawer-side bg-[#070C10]">
         <Link to="/dashboard" className="p-4 block text-center mx-auto ">
           <div className="flex justify-evenly items-center">
             <label
@@ -105,7 +105,7 @@ const Dashboard = () => {
             </span>
           </div>
         </Link>
-        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+        <ul className="menu bg-[#070C10] text-base-content min-h-full w-80 p-4">
           {/* Sidebar content here */}
           <li>
             <Link to="cv-sorter">Sort Cv</Link>

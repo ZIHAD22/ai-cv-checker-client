@@ -129,7 +129,7 @@ const QuestionGeneration = () => {
           Job Description
         </label>
         <textarea
-          className="textarea textarea-bordered w-full bg-gray-800 text-white h-[300px]"
+          className="textarea textarea-bordered w-full text-white h-[300px] bg-[#141414]"
           rows="4"
           placeholder="Enter job description here..."
           value={jobDescription}
@@ -138,7 +138,7 @@ const QuestionGeneration = () => {
       </div>
 
       <button
-        className="btn btn-primary flex items-center gap-2 w-1/6"
+        className="btn bg-gradient-to-r from-[#4D2A69] to-[#8640A8] w-1/3 mb-4 mx-auto"
         onClick={handleGenerate}
         disabled={isLoading}
       >

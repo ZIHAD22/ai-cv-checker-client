@@ -72,20 +72,20 @@ const ExtractData = () => {
   };
 
   if (isLoading) {
-    return <div className="flex h-[100vh] justify-center items-center">
-
+    return (
+      <div className="flex h-[100vh] justify-center items-center">
         <div>
-        <div>Extracting Text...</div>
-        <div className="flex items-center justify-center mt-5">
-          
-        <Loader className="animate-spin w-8 h-8 text-gray-500" />
+          <div>Extracting Text...</div>
+          <div className="flex items-center justify-center mt-5">
+            <Loader className="animate-spin w-8 h-8 text-gray-500" />
+          </div>
         </div>
-        </div>
-    </div>;
+      </div>
+    );
   }
 
   return (
-    <div className="p-6 shadow-md w-full">
+    <div className="p-6 w-full">
       <h2 className="text-2xl font-semibold text-[#ffff] mb-4">
         Upload CVs for Data Extraction
       </h2>
@@ -131,11 +131,11 @@ const ExtractData = () => {
         )}
       </div>
 
-      <div>
+      <div className="flex justify-center items-center">
         {/* Upload Button */}
         <button
           onClick={ExtractDataHandler}
-          className="btn btn-secondary mb-4 w-1/6"
+          className="btn bg-gradient-to-r from-[#4D2A69] to-[#8640A8] w-1/3 mb-4 mx-auto"
         >
           Extract Data and Download
         </button>

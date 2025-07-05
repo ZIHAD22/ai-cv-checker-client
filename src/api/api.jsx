@@ -2,7 +2,8 @@ import axios from "axios";
 // Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
-    config.baseURL = 'http://localhost:5000';
+    config.baseURL = "http://localhost:5000";
+    config.withCredentials = true;
     // config.headers.authorization = `${localStorage.getItem("jwt_token")} `;
     return config;
   },
@@ -10,7 +11,6 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
 
 axios.interceptors.response.use(
   function (response) {

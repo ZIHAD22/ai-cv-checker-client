@@ -157,11 +157,14 @@ const CvSorter = () => {
         <textarea
           value={jobDescription}
           onChange={(e) => setJobDescription(e.target.value)}
-          className="textarea textarea-bordered w-full mb-4 py-4 h-[300px] mt-2"
+          className="textarea textarea-bordered w-full mb-4 py-4 h-[300px] mt-2 bg-[#070C10] border-2 border-dashed"
         />
       </div>
 
-      <button onClick={handleUpload} className="btn btn-secondary w-1/6 mb-4">
+      <button
+        onClick={handleUpload}
+        className="btn bg-gradient-to-r from-[#4D2A69] to-[#8640A8] w-1/3 mb-4 mx-auto"
+      >
         Analyze CVs
       </button>
 

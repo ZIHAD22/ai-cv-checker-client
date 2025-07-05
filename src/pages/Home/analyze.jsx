@@ -64,7 +64,7 @@ const CVAnalyzerForm = () => {
 
   if (analysisData) {
     return (
-      <div className="relative w-full max-w-2xl mx-auto">
+      <div className="relative w-full  mx-auto">
         <button
           onClick={handleReset}
           className="absolute -top-4 -right-4 p-2 bg-gray-700 rounded-full hover:bg-gray-600 transition-colors duration-150"
@@ -82,7 +82,7 @@ const CVAnalyzerForm = () => {
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto overflow-y-scroll">
+    <div className="w-full overflow-y-scroll">
       {/* Header */}
       <div className="p-6 border-b border-gray-700">
         <h1 className="text-2xl font-bold text-gray-100">
@@ -109,7 +109,7 @@ const CVAnalyzerForm = () => {
               id="jobDescription"
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
-              className="w-full min-h-[90px] p-3 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-gray-700 text-gray-100 placeholder-gray-500"
+              className="w-full min-h-[90px] p-3 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-[#3D3D3D] text-gray-100 placeholder-gray-500"
               placeholder="Paste the job description here..."
               required
             />
@@ -160,10 +160,10 @@ const CVAnalyzerForm = () => {
       </div>
 
       {/* Footer with Submit Button */}
-      <div className="px-6 py-4 border-t border-gray-700">
+      <div className="px-6 py-4 border-t border-gray-700 flex justify-center items-center">
         <button
           onClick={handleSubmit}
-          className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150"
+          className="w-1/3 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#4D2A69] to-[#8640A8] rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150 cursor-pointer"
           disabled={!jobDescription || !selectedFile}
         >
           Analyze CV
