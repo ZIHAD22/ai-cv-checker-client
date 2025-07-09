@@ -78,7 +78,7 @@ const Dashboard = () => {
             <div className="flex justify-evenly items-center p-6">
               <label
                 aria-label="close sidebar"
-                className="cursor-pointer text-4xl w-[260px] h-[54px] text-white"
+                className="cursor-pointer text-4xl w-[255px] h-[54px] text-white"
               >
                 Intelligent - HR
               </label>
