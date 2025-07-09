@@ -67,14 +67,14 @@ const Dashboard = () => {
       {/* Sidebar */}
       <div className="flex-shrink-0 flex flex-col ">
         <div
-          className="border border-gray-700 m-5 min-h-screen"
+          className="border border-gray-700 m-5 min-h-[95%]"
           style={{
             width: SIDEBAR_WIDTH,
             minWidth: SIDEBAR_WIDTH,
             background: "#070C10",
           }}
         >
-          <Link to="/dashboard" className="block text-center mx-auto">
+          <Link to="/dashboard" className="block text-center mx-auto mb-20">
             <div className="flex justify-evenly items-center p-6">
               <label
                 aria-label="close sidebar"
