@@ -51,7 +51,7 @@ const SendEmail = () => {
 
     try {
       const response = await axios.post(
-        "https://aicvchecker.software/api/send-email",
+        "http://127.0.0.1:5000/send-email",
         formData,
         {
           headers: {
@@ -121,7 +121,7 @@ const SendEmail = () => {
           placeholder="Enter email subject"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          className="input input-bordered w-full mb-4 mt-2"
+          className="input input-bordered w-full mb-4 mt-2 bg-[#070C10]"
         />
       </div>
 
@@ -133,13 +133,13 @@ const SendEmail = () => {
           placeholder="Enter email body"
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          className="textarea textarea-bordered w-full mb-4 h-[400px] mt-2"
+          className="textarea textarea-bordered w-full mb-4 h-[400px] mt-2 bg-[#141414]"
         />
       </div>
 
       <button
         onClick={handleSendEmails}
-        className="btn btn-secondary w-1/6 mb-4"
+        className="btn bg-gradient-to-r from-[#4D2A69] to-[#8640A8] w-1/3 mb-4 mx-auto"
       >
         Send Emails
       </button>

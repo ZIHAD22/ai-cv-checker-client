@@ -38,7 +38,7 @@ const QuestionGeneration = () => {
 
     try {
       const response = await axios.post(
-        "https://aicvchecker.software/api/generate-questions",
+        "http://127.0.0.1:5000/generate-questions",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -129,7 +129,7 @@ const QuestionGeneration = () => {
           Job Description
         </label>
         <textarea
-          className="textarea textarea-bordered w-full bg-gray-800 text-white h-[300px]"
+          className="textarea textarea-bordered w-full text-white h-[300px] bg-[#141414]"
           rows="4"
           placeholder="Enter job description here..."
           value={jobDescription}
@@ -138,7 +138,7 @@ const QuestionGeneration = () => {
       </div>
 
       <button
-        className="btn btn-primary flex items-center gap-2 w-1/6"
+        className="btn bg-gradient-to-r from-[#4D2A69] to-[#8640A8] w-1/3 mb-4 mx-auto"
         onClick={handleGenerate}
         disabled={isLoading}
       >
@@ -200,7 +200,7 @@ const QuestionGeneration = () => {
                     </td>
                     <td className="border border-gray-600 px-4 py-2 text-center">
                       <a
-                        href={`https://aicvchecker.software/api/download-file/${file.docx}`}
+                        href={`http://127.0.0.1:5000/download-file/${file.docx}`}
                         className="text-blue-400 hover:underline"
                       >
                         Download DOCX
@@ -208,7 +208,7 @@ const QuestionGeneration = () => {
                     </td>
                     <td className="border border-gray-600 px-4 py-2 text-center">
                       <a
-                        href={`https://aicvchecker.software/api/download-file/${file.pdf}`}
+                        href={`http://127.0.0.1:5000/download-file/${file.pdf}`}
                         className="text-blue-400 hover:underline"
                       >
                         Download PDF

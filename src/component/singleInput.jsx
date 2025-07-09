@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
@@ -28,16 +29,15 @@ const SingleInput = ({
           value={value}
           onChange={onChange}
           required={required}
-          className={`peer w-full border-0 border-b-2 pb-2 focus:outline-none focus:ring-0 ${
+          className={`peer h-[58px] w-full border-0 bg-[#414141BF] ps-2 focus:outline-none focus:ring-0 ${
             error ? "border-red-500 focus:border-red-500" : "focus:border-black"
-          } placeholder-transparent text-sm`}
-          placeholder={name}
+          } placeholder-transparent text-2xl`}
         />
         <label
           htmlFor={name}
-          className={`absolute font-semibold left-0 -top-4 ${
+          className={`absolute font-semibold left-0 -top-7 ${
             error ? "text-red-500" : "text-gray-400"
-          } text-xs transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-sm peer-placeholder-shown:font-semibold peer-placeholder-shown:text-[#1d1e22] peer-focus:-top-4 peer-focus:text-xs ${
+          } text-md transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-sm peer-placeholder-shown:font-semibold peer-placeholder-shown:text-[#1d1e22] peer-focus:-top-4 peer-focus:text-xs ${
             error ? "peer-focus:text-red-500" : "peer-focus:text-gray-400"
           } pointer-events-none peer-focus:left-0 peer-placeholder-shown:left-2`}
         >

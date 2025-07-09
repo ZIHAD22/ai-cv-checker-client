@@ -1,10 +1,11 @@
-import { AlertCircle, CheckCircle2, XCircle } from "lucide-react";
+/* eslint-disable react/prop-types */
+import { AlertCircle, XCircle } from "lucide-react";
 import { Doughnut } from "react-chartjs-2";
 
 const CVAnalysisResults = ({ analysisData, isLoading, error }) => {
   if (isLoading) {
     return (
-      <div className="mt-6 p-4 bg-gray-800 rounded-lg border border-gray-700">
+      <div className="mt-6 p-4 bg-gray-800 rounded-lg border border-gray-700  min-w-[50%]">
         <div className="flex items-center justify-center space-x-2">
           <div className="w-4 h-4 bg-indigo-500 rounded-full animate-pulse" />
           <div className="w-4 h-4 bg-indigo-500 rounded-full animate-pulse delay-150" />
@@ -35,7 +36,7 @@ const CVAnalysisResults = ({ analysisData, isLoading, error }) => {
   const createDoughnutData = () => {
     // Use percentage from analysisData or default to 0
     const matchScore = analysisData.percentage || 0;
-    
+
     return {
       labels: ["Match Score", "Mismatch"],
       datasets: [
@@ -44,7 +45,7 @@ const CVAnalysisResults = ({ analysisData, isLoading, error }) => {
           backgroundColor: ["#36A2EB", "#FF6384"],
           hoverBackgroundColor: ["#36A2EB", "#FF6384"],
           borderWidth: 0,
-          cutout: '70%', // This creates the doughnut effect
+          cutout: "70%", // This creates the doughnut effect
         },
       ],
     };
@@ -65,15 +66,17 @@ const CVAnalysisResults = ({ analysisData, isLoading, error }) => {
 
   const { percentage, missing_skills, potential_questions } = analysisData;
   return (
-    <div className="mt-6 space-y-4 max-h-[600px] overflow-y-scroll">
+    <div className="mt-6 space-y-4 min-h-[800px] min-w-[50%] overflow-y-scroll">
       {/* Overall Match Score */}
       <div className="p-6 bg-gray-800 rounded-lg border border-gray-700">
         <div className="flex flex-col items-center">
-          <h2 className="text-xl font-semibold text-gray-100 mb-4">Match Score</h2>
+          <h2 className="text-xl font-semibold text-gray-100 mb-4">
+            Match Score
+          </h2>
           <div className="relative w-48 h-48">
             <Doughnut data={createDoughnutData()} options={chartOptions} />
             <div className="absolute inset-0 flex items-center justify-center flex-col">
-              <span 
+              <span
                 className={`text-3xl font-bold ${
                   percentage >= 70
                     ? "text-green-400"
