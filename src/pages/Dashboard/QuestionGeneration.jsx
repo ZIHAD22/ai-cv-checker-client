@@ -70,7 +70,7 @@ const QuestionGeneration = () => {
   };
 
   return (
-    <div className="flex flex-col p-6 shadow-md w-full mx-auto text-white">
+    <div className="flex flex-col p-6 w-full mx-auto text-white">
       <h2 className="text-2xl font-semibold mb-4">
         Generate Interview Questions
       </h2>

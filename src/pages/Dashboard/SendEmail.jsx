@@ -75,7 +75,7 @@ const SendEmail = () => {
   }
 
   return (
-    <div className="flex flex-col p-6 pb-0 shadow-md w-full mx-auto text-[#ffffff]">
+    <div className="flex flex-col p-6 pb-0 w-full mx-auto text-[#ffffff]">
       <h2 className="text-2xl font-semibold mb-4">Send Emails</h2>
       {/* file upload */}
       <div className="space-y-2 my-5">
