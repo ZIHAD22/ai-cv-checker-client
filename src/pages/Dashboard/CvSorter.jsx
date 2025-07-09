@@ -100,7 +100,7 @@ const CvSorter = () => {
   }
 
   return (
-    <div className="flex flex-col p-6 shadow-md w-full mx-auto text-[#ffffff]">
+    <div className="flex flex-col p-6 w-full mx-auto text-[#ffffff]">
       <h2 className="text-2xl font-semibold mb-4">Upload CVs for Sorting</h2>
 
       <div className="space-y-2 my-5">

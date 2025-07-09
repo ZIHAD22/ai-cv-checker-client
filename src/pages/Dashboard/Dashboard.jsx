@@ -9,6 +9,8 @@ import {
   FaCheckCircle,
 } from "react-icons/fa";
 
+const SIDEBAR_WIDTH = 414;
+
 const Dashboard = () => {
   const location = useLocation();
   const navigation = useNavigate();
@@ -53,15 +55,77 @@ const Dashboard = () => {
     localStorage.removeItem("jwt_token");
     navigation("/");
   };
+
   return (
-    <div className="drawer lg:drawer-open bg-[#070C10]">
-      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content">
-        {/* Page content here */}
+    <div
+      className="flex overflow-hidden min-h-screen"
+      style={{
+        boxSizing: "border-box",
+        background: "#070C10",
+      }}
+    >
+      {/* Sidebar */}
+      <div className="flex-shrink-0 flex flex-col ">
+        <div
+          className="border border-gray-700 m-5 min-h-screen"
+          style={{
+            width: SIDEBAR_WIDTH,
+            minWidth: SIDEBAR_WIDTH,
+            background: "#070C10",
+          }}
+        >
+          <Link to="/dashboard" className="block text-center mx-auto">
+            <div className="flex justify-evenly items-center p-6">
+              <label
+                aria-label="close sidebar"
+                className="cursor-pointer text-4xl w-[260px] h-[54px] text-white"
+              >
+                Intelligent - HR
+              </label>
+              <span>
+                <IoIosLogOut
+                  size="50"
+                  className="text-white"
+                  onClick={handleLogOut}
+                />
+              </span>
+            </div>
+          </Link>
+          <ul
+            className="menu text-base-content w-full p-4"
+            style={{ background: "#070C10" }}
+          >
+            {/* Sidebar content here */}
+            <li>
+              <Link to="cv-sorter" className="text-white">
+                Sort Cv
+              </Link>
+            </li>
+            <li>
+              <Link to="extract-data" className="text-white">
+                Extract Data
+              </Link>
+            </li>
+            <li>
+              <Link to="send-email" className="text-white">
+                Send Email
+              </Link>
+            </li>
+            <li>
+              <Link to="generation-question" className="text-white">
+                Generate Question
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 min-w-0" style={{ background: "#070C10" }}>
         {location.pathname === "/dashboard" && (
           <>
             <div className="p-6 max-w-4xl mx-auto mt-20">
-              <h1 className="text-3xl font-bold text-center mb-6">
+              <h1 className="text-3xl font-bold text-center mb-6 text-white">
                 HR Automation Dashboard
               </h1>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -83,43 +147,6 @@ const Dashboard = () => {
           </>
         )}
         <Outlet />
-        <label
-          htmlFor="my-drawer-2"
-          className="btn btn-primary drawer-button lg:hidden"
-        >
-          Open drawer
-        </label>
-      </div>
-      <div className="drawer-side bg-[#070C10]">
-        <Link to="/dashboard" className="p-4 block text-center mx-auto ">
-          <div className="flex justify-evenly items-center">
-            <label
-              htmlFor="my-drawer-2"
-              aria-label="close sidebar"
-              className="cursor-pointer"
-            >
-              Intelligent - HR
-            </label>
-            <span>
-              <IoIosLogOut size="25" onClick={handleLogOut} />
-            </span>
-          </div>
-        </Link>
-        <ul className="menu bg-[#070C10] text-base-content min-h-full w-80 p-4">
-          {/* Sidebar content here */}
-          <li>
-            <Link to="cv-sorter">Sort Cv</Link>
-          </li>
-          <li>
-            <Link to="extract-data">Extract Data</Link>
-          </li>
-          <li>
-            <Link to="send-email">Send Email</Link>
-          </li>
-          <li>
-            <Link to="generation-question">Generate Question</Link>
-          </li>
-        </ul>
       </div>
     </div>
   );
