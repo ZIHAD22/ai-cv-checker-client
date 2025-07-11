@@ -8,9 +8,14 @@ import QuestionGeneration from "../pages/Dashboard/QuestionGeneration.jsx";
 import Auth from "../pages/auth/auth.jsx";
 import Test from "../pages/Home/test.jsx";
 import PrivateRoute from "../utils/PrivateRoute.jsx";
+import LandingPage from "../pages/landing/landingPage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <LandingPage />,
+  },
+  {
+    path: "/cv-analyzer",
     element: <Home />,
   },
   {
