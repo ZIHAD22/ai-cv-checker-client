@@ -16,7 +16,7 @@ export default function HeroSection() {
             actionable feedback to boost your chances of landing interviews.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 text-base md:text-xl xl:text-[24px]">
-            <Button bg={true} href={"/auth?method=signup"} width="w-full sm:w-[48%] xl:w-[400px]">Get Started</Button>
+            <Button bg={true} href={"/cv-analyzer"} width="w-full sm:w-[48%] xl:w-[400px]">Get Started</Button>
             <Button bg={false} href={"/dashboard"} width="w-full sm:w-[48%] xl:w-[400px]">HR Dashboard</Button>
           </div>
         </div>

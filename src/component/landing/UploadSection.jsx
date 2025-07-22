@@ -8,7 +8,7 @@ export default function UploadSection() {
           Upload Your CV for better experience
         </div>
         <div className="w-full sm:w-auto">
-          <Button width="w-full sm:w-auto" href={"/auth?method=signup"}>
+          <Button width="w-full sm:w-auto" href={"/cv-analyzer"}>
             <span className="text-base sm:text-lg md:text-xl lg:text-[24px]">Try for Free</span>
           </Button>
         </div>

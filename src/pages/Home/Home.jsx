@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import Navbar from "../../component/home/navBar";
-import CVAnalyzerForm from "./analyze";
+// import CVAnalyzerForm from "./analyze";
 import { useNavigate } from "react-router";
+import ParentComponent from "../../component/cv-analyzer/cvParent";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -17,10 +18,11 @@ const Home = () => {
     <>
       <Navbar />
       <div className="flex justify-center items-center mt-24">
-        <div className="flex flex-col-reverse md:flex-row bg-[#80808040] p-2 text-[#1d1e22] min-h-[800px] min-w-[50%] rounded-[15px]">
-          <CVAnalyzerForm />
+        {/* <div className="flex flex-col-reverse md:flex-row text-[#1d1e22] min-h-[800px] min rounded-[15px]"> */}
+          {/* <CVAnalyzerForm /> */}
+          <ParentComponent/>
           {/* <SignUpForm /> */}
-        </div>
+        {/* </div> */}
       </div>
     </>
   );

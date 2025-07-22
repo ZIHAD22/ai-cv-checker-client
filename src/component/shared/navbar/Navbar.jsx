@@ -216,7 +216,7 @@ export default function Navbar() {
           {/* Desktop login/signup buttons */}
           <div className="hidden md:flex items-center gap-2 lg:gap-4">
             {scrolled ? (
-              <GradientButton>
+              <GradientButton href={"/cv-analyzer"}>
                 <span className="text-xs md:text-sm lg:text-base xl:text-[24px]">Get started for free</span>
               </GradientButton>
             ) : (
