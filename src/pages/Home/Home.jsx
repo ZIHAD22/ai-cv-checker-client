@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import Navbar from "../../component/home/navBar";
 // import CVAnalyzerForm from "./analyze";
 import { useNavigate } from "react-router";
-import CVAnalyzer from "../../component/cv-analyzer/cvAnalyzer";
 import ParentComponent from "../../component/cv-analyzer/cvParent";
 
 const Home = () => {

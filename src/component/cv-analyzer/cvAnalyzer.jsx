@@ -136,7 +136,7 @@ const CVAnalyzer = () => {
     if (files.length > 0) {
       handleFileUpload(files);
     }
-    e.target.value = ''; // Reset input
+    e.target.value = '';
   }, [handleFileUpload]);
 
   const setAsDefault = useCallback((file) => {
